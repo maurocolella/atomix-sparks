@@ -3,6 +3,7 @@ import * as THREE from 'three'
 import * as React from 'react'
 import { useRef, useState } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
+import SVG from './SVG'
 
 function Box(props: JSX.IntrinsicElements['mesh']) {
   // This reference will give us direct access to the THREE.Mesh object
@@ -33,7 +34,7 @@ export default function App() {
       <ambientLight intensity={0.5} />
       <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
       <pointLight position={[-10, -10, -10]} />
-      <Box position={[0, 0, 0]} />
+      <SVG url="/atomix.svg" />
     </Canvas>
   )
 }

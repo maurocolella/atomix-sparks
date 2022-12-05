@@ -38,7 +38,7 @@ const SvgShape: React.FC<Record<string, any>> = ({ shape, color, index }) => {
   )
 }
 
-const SvgAsync: React.FC<Record<string, any>> = React.memo(({ url }) => {
+const SvgAsync: React.FC<Record<string, any>> = React.memo(({ url, scale, position, rotation }) => {
   const { paths } = useLoader(SVGLoader, url) as SVGResult
   const shapes = useMemo(
     () =>
@@ -52,9 +52,9 @@ const SvgAsync: React.FC<Record<string, any>> = React.memo(({ url }) => {
       children={shapes.map((props: any, key: number) => (
         <SvgShape key={key} {...props} />
       ))}
-      scale={[0.01, 0.01, 0.01]}
-      position={[-1, 0.5, 0]}
-      rotation={[0, Math.PI * 1.05, Math.PI]}
+      scale={scale ?? [1, 1, 1]}
+      position={position ?? [0, 0, 0]}
+      rotation={rotation ?? [0, 0, 0]}
     />
   )
 })

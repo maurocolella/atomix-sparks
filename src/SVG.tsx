@@ -10,40 +10,52 @@ const DefaultModel = () => (
   </Box>
 )
 
-const SvgShape: React.FC<Record<string, any>> = ({ shape, color, index }) => {
-  const extrusionSettings = {
-    steps: 2,
-    depth: 16,
-    bevelEnabled: true,
-    bevelThickness: 1,
-    bevelSize: 1,
-    bevelOffset: 0,
-    bevelSegments: 1
-  }
-
-  return (
+const SvgShape: React.FC<Record<string, any>> = ({
+  shape,
+  color,
+  index,
+  extrusionSettings
+}) => (
     <mesh>
       <meshLambertMaterial
         attach="material"
         color={color}
-        transparent={true}
-        side={DoubleSide}
-        depthWrite={false}
       />
       <extrudeGeometry
         attach="geometry"
-        args={[shape, extrusionSettings]}
+      args={[shape, {
+        ...{
+          steps: 2,
+          depth: 16,
+          bevelEnabled: true,
+          bevelThickness: 1,
+          bevelSize: 1,
+          bevelOffset: 0,
+          bevelSegments: 1
+        },
+        ...extrusionSettings
+      }]}
       />
     </mesh>
   )
-}
 
-const SvgAsync: React.FC<Record<string, any>> = React.memo(({ url, scale, position, rotation }) => {
+const SvgAsync: React.FC<Record<string, any>> = React.memo(({
+    url,
+    scale,
+    position,
+    rotation,
+    extrusionSettings,
+  }) => {
   const { paths } = useLoader(SVGLoader, url) as SVGResult
   const shapes = useMemo(
     () =>
       paths.flatMap((path, index) =>
-        path.toShapes(true).map(shape => ({ index, shape, color: path.color }))
+        path.toShapes(true).map(shape => ({
+          index,
+          shape,
+          color: path.color,
+          extrusionSettings,
+        }))
       ),
     [paths]
   )

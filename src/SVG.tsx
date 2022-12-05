@@ -10,21 +10,33 @@ const DefaultModel = () => (
   </Box>
 )
 
-const SvgShape: React.FC<Record<string, any>> = ({ shape, color, index }) => (
-  <mesh>
-    <meshLambertMaterial
-      attach="material"
-      color={color}
-      transparent={true}
-      side={DoubleSide}
-      depthWrite={false}
-    />
-    <shapeGeometry
-      attach="geometry"
-      args={[shape]}
-    />
-  </mesh>
-)
+const SvgShape: React.FC<Record<string, any>> = ({ shape, color, index }) => {
+  const extrusionSettings = {
+    steps: 2,
+    depth: 16,
+    bevelEnabled: true,
+    bevelThickness: 1,
+    bevelSize: 1,
+    bevelOffset: 0,
+    bevelSegments: 1
+  }
+
+  return (
+    <mesh>
+      <meshLambertMaterial
+        attach="material"
+        color={color}
+        transparent={true}
+        side={DoubleSide}
+        depthWrite={false}
+      />
+      <extrudeGeometry
+        attach="geometry"
+        args={[shape, extrusionSettings]}
+      />
+    </mesh>
+  )
+}
 
 const SvgAsync: React.FC<Record<string, any>> = React.memo(({ url }) => {
   const { paths } = useLoader(SVGLoader, url) as SVGResult
@@ -42,7 +54,7 @@ const SvgAsync: React.FC<Record<string, any>> = React.memo(({ url }) => {
       ))}
       scale={[0.01, 0.01, 0.01]}
       position={[-1, 0.5, 0]}
-      rotation={[0, Math.PI, Math.PI]}
+      rotation={[0, Math.PI * 1.05, Math.PI]}
     />
   )
 })

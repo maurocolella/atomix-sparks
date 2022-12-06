@@ -40,7 +40,7 @@ export default function App() {
         position={[-3, 1, 0]}
         rotation={[0, Math.PI, Math.PI]}
         extrusionSettings={{
-          depth: 1,
+          depth: 4,
         }}
       />
     </Canvas>

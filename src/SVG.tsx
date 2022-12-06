@@ -2,7 +2,7 @@ import React, { Suspense, useMemo } from 'react'
 import { Box } from '@react-three/drei'
 import { useLoader } from '@react-three/fiber'
 import { SVGLoader, SVGResult } from 'three-stdlib'
-import { DoubleSide } from 'three'
+
 
 const DefaultModel = () => (
   <Box args={[1, 1, 1]}>
@@ -16,13 +16,13 @@ const SvgShape: React.FC<Record<string, any>> = ({
   index,
   extrusionSettings
 }) => (
-    <mesh>
-      <meshLambertMaterial
-        attach="material"
-        color={color}
-      />
-      <extrudeGeometry
-        attach="geometry"
+  <mesh>
+    <meshLambertMaterial
+      attach="material"
+      color={color}
+    />
+    <extrudeGeometry
+      attach="geometry"
       args={[shape, {
         ...{
           steps: 2,
@@ -35,17 +35,17 @@ const SvgShape: React.FC<Record<string, any>> = ({
         },
         ...extrusionSettings
       }]}
-      />
-    </mesh>
-  )
+    />
+  </mesh>
+)
 
 const SvgAsync: React.FC<Record<string, any>> = React.memo(({
-    url,
-    scale,
-    position,
-    rotation,
-    extrusionSettings,
-  }) => {
+  url,
+  scale,
+  position,
+  rotation,
+  extrusionSettings,
+}) => {
   const { paths } = useLoader(SVGLoader, url) as SVGResult
   const shapes = useMemo(
     () =>
@@ -57,25 +57,29 @@ const SvgAsync: React.FC<Record<string, any>> = React.memo(({
           extrusionSettings,
         }))
       ),
-    [paths]
+    [paths, extrusionSettings]
   )
   return (
     <group
-      children={shapes.map((props: any, key: number) => (
-        <SvgShape key={key} {...props} />
-      ))}
       scale={scale ?? [1, 1, 1]}
       position={position ?? [0, 0, 0]}
       rotation={rotation ?? [0, 0, 0]}
-    />
+    >
+      {shapes.map((props: any, key: number) => (
+        <SvgShape key={key} {...props} />
+      ))}
+    </group>
   )
 })
+
+SvgAsync.displayName = 'SvgAsync'
 
 const SVG = (props: any) => (
   <Suspense
     fallback={<DefaultModel {...props} />}
-    children={<SvgAsync {...props} />}
-  />
+  >
+    <SvgAsync {...props} />
+  </Suspense>
 )
 
 export default SVG

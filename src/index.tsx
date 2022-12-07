@@ -20,8 +20,8 @@ function Number({ hover } : { hover: any }) {
   useFrame((state) => {
     if (ref.current) {
       ref.current.position.x = THREE.MathUtils.lerp(ref.current.position.x, state.mouse.x * 2, 0.1)
-      ref.current.rotation.x = THREE.MathUtils.lerp(ref.current.rotation.x, state.mouse.y / 2, 0.1)
-      ref.current.rotation.y = 0.8
+      ref.current.rotation.x = THREE.MathUtils.lerp(ref.current.rotation.x, state.mouse.y / 2, 0.2)
+      ref.current.rotation.y = THREE.MathUtils.lerp(ref.current.rotation.y, -state.mouse.x / 2, 0.05)
     }
   })
   return (
@@ -30,8 +30,8 @@ function Number({ hover } : { hover: any }) {
         <SVG
           url="/atomix.svg"
           scale={[0.6, 0.6, 0.6]}
-          position={[30, 15, 40]}
-          rotation={[0, Math.PI * 1.77, Math.PI]}
+          position={[60, 12, 10]}
+          rotation={[0, Math.PI * 2, Math.PI]}
           extrusionSettings={{
             depth: 4,
           }}

@@ -21,7 +21,7 @@ function Number({ hover } : { hover: any }) {
     if (ref.current) {
       ref.current.position.x = THREE.MathUtils.lerp(ref.current.position.x, state.mouse.x * 2, 0.1)
       ref.current.rotation.x = THREE.MathUtils.lerp(ref.current.rotation.x, state.mouse.y / 2, 0.2)
-      ref.current.rotation.y = THREE.MathUtils.lerp(ref.current.rotation.y, -state.mouse.x / 2, 0.05)
+      ref.current.rotation.y = THREE.MathUtils.lerp(ref.current.rotation.y, state.mouse.x / 2, 0.05)
     }
   })
   return (
